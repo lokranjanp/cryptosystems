@@ -127,19 +127,14 @@ int main() {
     cout << "Welcome to Crypto - systems" << endl;
     int choice = 0;
     do{
-
         string plain_text;
         string cipher_text;
-
-
-        cout << endl;
-
-
-
         display_choices();
+
         cout << "Enter your choice of encryption : ";
         cin >> choice;
-        if(choice-6){
+
+        if(choice<=6){
             cout << "Enter plain text : " << " ";
             cin >> plain_text;
         }
@@ -165,6 +160,11 @@ int main() {
                 break;
 
             case 5:
+                //cipher_text = hill_cipher(plain_text);
+                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+                break;
+
+            case 6:
                 //cipher_text = playfair_cipher(plain_text);
                 cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
                 break;
@@ -173,6 +173,6 @@ int main() {
                 cout << "*************Exiting***********" << endl;
                 //  cin >> choice;
         }
-    }while(choice!=6);
+    }while(choice!=7);
 
 }
