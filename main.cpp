@@ -75,6 +75,7 @@ using namespace std;
             return "ERROR";
         }
 
+
         string res = "";
         for (auto c: plain) {
             if (isalpha(c)) {
