@@ -80,11 +80,6 @@ string affine_cipher(string &plain){
     return res;
 }
 
-string auto_key_cipher(string &plain){
-    string res;
-    return res;
-}
-
 string vignere_cipher(string &plain){
     string res;
     string key = choose_string_key(plain.size());
