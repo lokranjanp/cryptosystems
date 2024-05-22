@@ -74,8 +74,8 @@ using namespace std;
         if (key == -1) {
             return "ERROR";
         }
-        string res = "";
 
+        string res = "";
         for (auto c: plain) {
             if (isalpha(c)) {
                 char offset = isupper(c) ? 'A' : 'a';
