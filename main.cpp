@@ -74,8 +74,6 @@ using namespace std;
         if (key == -1) {
             return "ERROR";
         }
-
-
         string res = "";
         for (auto c: plain) {
             if (isalpha(c)) {
@@ -87,6 +85,7 @@ using namespace std;
         }
         return res;
     }
+
 
     int main() {
 
