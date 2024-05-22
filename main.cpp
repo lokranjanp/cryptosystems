@@ -32,6 +32,14 @@ int choose_key(bool inv){
         return -1;
 }
 
+string choose_string_key(int key_size){
+    string key;
+    cout<<"Enter input string key lesser than size "<<key_size<<": ";
+    cin>>key;
+
+    return key;
+}
+
 void display_choices(){
     cout<<endl;
     cout<<"1. Ceaser Cipher\n2. Affine Cipher\n3. Auto Key Cipher\n4. Vignere Cipher\n5. Hill Cipher\n"<<endl;
@@ -73,8 +81,31 @@ string affine_cipher(string &plain){
 }
 
 string auto_key_cipher(string &plain){
-
     string res;
+    return res;
+}
+
+string vignere_cipher(string &plain){
+    string res;
+    string key = choose_string_key(plain.size());
+    int j = 0;
+
+    for(int i = 0; i<plain.size(); i++){
+        char c = plain[i];
+        char k = key[j];
+        if(isalpha(c))
+        {
+            char offset_char =  isupper(c) ? 'A' : 'a';
+            char offset_key = isupper(k) ? 'A' : 'a';
+            res += ((c - offset_char) + (k - offset_key))%26 + offset_char;
+        }
+        else
+            res += c;
+        j++;
+        if(j==key.size())
+            j = 0;
+
+    }
     return res;
 }
 
@@ -85,12 +116,11 @@ int main()
     string plain_text;
     string cipher_text;
     cin>>plain_text;
-
     cout<<endl;
 
     int choice = 0;
-    cout<<"Enter your choice of encryption : ";
     display_choices();
+    cout<<"Enter your choice of encryption : ";
     cin>>choice;
     switch(choice) {
         case 1:
@@ -109,7 +139,7 @@ int main()
             break;
 
         case 4:
-            //cipher_text = vignere_cipher(plain_text);
+            cipher_text = vignere_cipher(plain_text);
             cout<<endl<<"Cipher text for plain text : "<<plain_text<<" is "<<cipher_text<<endl;
             break;
 
