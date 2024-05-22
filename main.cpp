@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include "stdc++.h"
 using namespace std;
 
 vector<int> invZ26 = {1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25};
