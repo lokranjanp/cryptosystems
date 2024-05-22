@@ -80,6 +80,24 @@ string affine_cipher(string &plain){
     return res;
 }
 
+string auto_key_cipher(string &plain) {
+        int key = choose_key(false);
+        cout << "Key is : " << key << endl;
+        if (key == -1) {
+            return "ERROR";
+        }
+        string res = "";
+        for (auto c: plain) {
+            if (isalpha(c)) {
+                char offset = isupper(c) ? 'A' : 'a';
+                res += ((c - offset + key) % 26 + offset);
+                key = c - offset;
+            } else
+                res += c;
+        }
+        return res;
+}
+
 string vignere_cipher(string &plain){
     string res;
     string key = choose_string_key(plain.size());
@@ -104,49 +122,57 @@ string vignere_cipher(string &plain){
     return res;
 }
 
-int main()
-{
-    cout<<"Welcome to Crypto - systems"<<endl;
-    cout<<"Enter plain text : "<<" ";
-    string plain_text;
-    string cipher_text;
-    cin>>plain_text;
-    cout<<endl;
 
+int main() {
+    cout << "Welcome to Crypto - systems" << endl;
     int choice = 0;
-    display_choices();
-    cout<<"Enter your choice of encryption : ";
-    cin>>choice;
-    switch(choice) {
-        case 1:
-            cipher_text = ceaser_cipher(plain_text);
-            cout<<endl<<"Cipher text for plain text : "<<plain_text<<" is "<<cipher_text<<endl;
-            break;
+    do{
 
-        case 2:
-            cipher_text = affine_cipher(plain_text);
-            cout<<endl<<"Cipher text for plain text : "<<plain_text<<" is "<<cipher_text<<endl;
-            break;
+        string plain_text;
+        string cipher_text;
 
-        case 3:
-            cipher_text = auto_key_cipher(plain_text);
-            cout<<endl<<"Cipher text for plain text : "<<plain_text<<" is "<<cipher_text<<endl;
-            break;
 
-        case 4:
-            cipher_text = vignere_cipher(plain_text);
-            cout<<endl<<"Cipher text for plain text : "<<plain_text<<" is "<<cipher_text<<endl;
-            break;
+        cout << endl;
 
-        case 5:
-            //cipher_text = playfair_cipher(plain_text);
-            cout<<endl<<"Cipher text for plain text : "<<plain_text<<" is "<<cipher_text<<endl;
-            break;
 
-        default:
-            cout<<"Enter a valid choice!!"<<endl;
-            cin>>choice;
 
-    }
+        display_choices();
+        cout << "Enter your choice of encryption : ";
+        cin >> choice;
+        if(choice-6){
+            cout << "Enter plain text : " << " ";
+            cin >> plain_text;
+        }
+
+        switch (choice) {
+            case 1:
+                cipher_text = ceaser_cipher(plain_text);
+                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+                break;
+            case 2:
+                cipher_text = affine_cipher(plain_text);
+                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+                break;
+
+            case 3:
+                cipher_text = auto_key_cipher(plain_text);
+                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+                break;
+
+            case 4:
+                cipher_text = vignere_cipher(plain_text);
+                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+                break;
+
+            case 5:
+                //cipher_text = playfair_cipher(plain_text);
+                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+                break;
+
+            default:
+                cout << "*************Exiting***********" << endl;
+                //  cin >> choice;
+        }
+    }while(choice!=6);
 
 }
