@@ -156,7 +156,7 @@ vector<vector<int>> get_cofactor(int p, int q, int n, vector<vector<int>>&key){
     return cofactor;
 }
 
-int determinant(const vector<vector<int>>&key){
+int determinant(vector<vector<int>>&key){
     int n = key.size();
     if(n == 1)
         return key[0][0];
@@ -195,16 +195,17 @@ bool check_invert(vector<vector<int>>&key){
         if(check_gcd(det, NUM) == 1)
             return true;
     }
-
     return false;
 }
 
 void fill_matrix(vector<vector<int>>&key){
+    cout<<endl<<"Enter values for the key matrix : "<<endl;
     int n = key.size();
     for(int i = 0; i <n; i++)
     {
         for(int j = 0; j<n; j++)
         {
+            cout<<endl<<"Value for "<<i<<"th row and "<<j<<"th column : ";
             cin>>key[i][j];
         }
     }
@@ -220,7 +221,7 @@ string hill_cipher(string &plain){
     int plain_size = plain.length();
     int key_size = choose_matrix_key(plain_size);
 
-    vector<vector<int>>key(key_size,vector<int>());
+    vector<vector<int>>key(key_size,vector<int>(key_size));
     fill_matrix(key);
 
     return cipher_text;

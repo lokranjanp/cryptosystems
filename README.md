@@ -1,6 +1,5 @@
-# cryptsystems
+# Cryptosystems
 All cryptography algorithms of Cryptography and Network Security course
-
 
 Contains implementation of:
 1) Symmetric cryptographic techniques
