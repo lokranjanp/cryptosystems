@@ -137,35 +137,34 @@ string vignere_cipher(string &plain){
 
 vector<vector<int>> get_cofactor(int p, int q, int n, vector<vector<int>>&key){
     vector<vector<int>>cofactor;
-    int i = 0, j = 0;
 
     for(int row = 0; row<n; row++){
+        if(row == p)
+            continue;
+
+        vector<int>cofactor_row;
         for(int col = 0; col<n; col++){
-            if(row != p && col!= q){
-                if(j == 0)
-                    cofactor.push_back(vector<int>());
-                j++;
-                cofactor[i].push_back(key[row][col]);
-                if(j == n-1){
-                    i++;
-                    j = 0;
-                }
-            }
+            if(col == q)
+                continue;
+
+            cofactor_row.push_back(key[row][col]);
         }
+        cofactor.push_back(cofactor_row);
     }
+
     return cofactor;
 }
 
 int determinant(vector<vector<int>>&key){
     int n = key.size();
-    if(n == 1)
-        return key[0][0];
-
-    if(n == 2)
-        return key[0][0] * key[1][1] - key[1][0] * key[0][1];
-
     int det = 0;
     int sign = 1;
+
+    if(n == 1)
+        return det = key[0][0];
+
+    if(n == 2)
+        return det = (key[0][0] * key[1][1] - key[1][0] * key[0][1]);
 
     for(int f = 0; f<n; f++){
         vector<vector<int>>cofactor = get_cofactor(0, f, n, key);
@@ -177,22 +176,20 @@ int determinant(vector<vector<int>>&key){
     return det;
 }
 
-bool check_gcd(int a, int b){
-    while (a > 0 && b > 0){
-        if (a > b)
-            a = a % b;
-        else
-            b = b % a;
+int gcd(int a, int b) {
+    while (b != 0) {
+        int t = b;
+        b = a % b;
+        a = t;
     }
-    if (a == 0)
-        return b==1;
-    return a==1;
+    return a;
 }
+
 
 bool check_invert(vector<vector<int>>&key){
     int det = determinant(key);
     if(det!= 0){
-        if(check_gcd(det, NUM) == 1)
+        if(gcd(det, NUM) == 1)
             return true;
     }
     return false;
@@ -224,9 +221,9 @@ string hill_cipher(string &plain){
     vector<vector<int>>key(key_size,vector<int>(key_size));
     fill_matrix(key);
 
+
     return cipher_text;
 }
-
 
 int main() {
     cout << "Welcome to Crypto - systems" << endl;
