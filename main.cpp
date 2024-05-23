@@ -41,14 +41,10 @@ string choose_string_key(int key_size){
     return key;
 }
 
-int choose_matrix_key(int plain_size){
+int choose_matrix_key(){
     int mat_size;
     cout<<"Enter the size for the square matrix : ";
     cin>>mat_size;
-    if(plain_size%mat_size!=0){
-        cout<<"Choose different size, should divide plain text equally"<<endl;
-        return choose_matrix_key(plain_size);
-    }
 
     return mat_size;
 }
@@ -215,13 +211,41 @@ void fill_matrix(vector<vector<int>>&key){
 
 string hill_cipher(string &plain){
     string cipher_text;
-    int plain_size = plain.length();
-    int key_size = choose_matrix_key(plain_size);
+    int key_size = choose_matrix_key();
+
+    while(plain.length()%key_size!=0)
+        plain+='X';
 
     vector<vector<int>>key(key_size,vector<int>(key_size));
     fill_matrix(key);
 
+    for(int i = 0; i<plain.size(); i+=key_size) {
+        vector<int> plain_vec(key_size);
+        vector<int> offset(key_size);
 
+        for (int j = 0; j < key_size; j++) {
+            char c = plain[i + j];
+            if (isupper(c)) {
+                plain_vec[j] = c - 'A';
+                offset[j] = 'A';
+            } else if (islower(c)) {
+                plain_vec[j] = c - 'a';
+                offset[j] = 'a';
+            } else {
+                plain_vec[j] = c;
+                offset[j] = 0;
+            }
+        }
+
+        for (int j = 0; j < key_size; j++) {
+            int sum = 0;
+            for (int k = 0; k < key_size; k++) {
+                sum += key[j][k] * plain_vec[k];
+            }
+            sum %= 26;
+            cipher_text += sum + offset[j];
+        }
+    }
     return cipher_text;
 }
 
