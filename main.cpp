@@ -1,5 +1,6 @@
 #include "stdc++.h"
 using namespace std;
+const int NUM = 26;
 
 vector<int> invZ26 = {1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25};
 
@@ -11,7 +12,7 @@ int alpha_num(char c){
 }
 
 int choose_key(bool inv){
-    srand(time(0));
+    srand(time(nullptr));
 
     char choice;
     cout<<"Do you want a random key ?(Y/N)"<<endl;
@@ -40,6 +41,18 @@ string choose_string_key(int key_size){
     return key;
 }
 
+int choose_matrix_key(int plain_size){
+    int mat_size;
+    cout<<"Enter the size for the square matrix : ";
+    cin>>mat_size;
+    if(plain_size%mat_size!=0){
+        cout<<"Choose different size, should divide plain text equally"<<endl;
+        return choose_matrix_key(plain_size);
+    }
+
+    return mat_size;
+}
+
 void display_choices(){
     cout<<endl;
     cout<<"1. Ceaser Cipher\n2. Affine Cipher\n3. Auto Key Cipher\n4. Vignere Cipher\n5. Hill Cipher\n"<<endl;
@@ -56,7 +69,7 @@ string ceaser_cipher(string &plain){
     for(auto c : plain){
         if(isalpha(c)){
             char offset = isupper(c) ? 'A' : 'a';
-            res += ((c - offset + key)%26 + offset);
+            res += (std::to_string((c - offset + key)%26 + offset));
         }
         else
             res += c;
@@ -86,11 +99,11 @@ string auto_key_cipher(string &plain) {
         if (key == -1) {
             return "ERROR";
         }
-        string res = "";
+        string res;
         for (auto c: plain) {
             if (isalpha(c)) {
                 char offset = isupper(c) ? 'A' : 'a';
-                res += ((c - offset + key) % 26 + offset);
+                res += (std::to_string((c - offset + key) % 26 + offset));
                 key = c - offset;
             } else
                 res += c;
@@ -110,7 +123,7 @@ string vignere_cipher(string &plain){
         {
             char offset_char =  isupper(c) ? 'A' : 'a';
             char offset_key = isupper(k) ? 'A' : 'a';
-            res += ((c - offset_char) + (k - offset_key))%26 + offset_char;
+            res += std::to_string(((c - offset_char) + (k - offset_key))%26 + offset_char);
         }
         else
             res += c;
@@ -120,6 +133,97 @@ string vignere_cipher(string &plain){
 
     }
     return res;
+}
+
+vector<vector<int>> get_cofactor(int p, int q, int n, vector<vector<int>>&key){
+    vector<vector<int>>cofactor;
+    int i = 0, j = 0;
+
+    for(int row = 0; row<n; row++){
+        for(int col = 0; col<n; col++){
+            if(row != p && col!= q){
+                if(j == 0)
+                    cofactor.push_back(vector<int>());
+                j++;
+                cofactor[i].push_back(key[row][col]);
+                if(j == n-1){
+                    i++;
+                    j = 0;
+                }
+            }
+        }
+    }
+    return cofactor;
+}
+
+int determinant(const vector<vector<int>>&key){
+    int n = key.size();
+    if(n == 1)
+        return key[0][0];
+
+    if(n == 2)
+        return key[0][0] * key[1][1] - key[1][0] * key[0][1];
+
+    int det = 0;
+    int sign = 1;
+
+    for(int f = 0; f<n; f++){
+        vector<vector<int>>cofactor = get_cofactor(0, f, n, key);
+        det += sign * key[0][f] * determinant(cofactor);
+
+        sign *= -1;
+    }
+
+    return det;
+}
+
+bool check_gcd(int a, int b){
+    while (a > 0 && b > 0){
+        if (a > b)
+            a = a % b;
+        else
+            b = b % a;
+    }
+    if (a == 0)
+        return b==1;
+    return a==1;
+}
+
+bool check_invert(vector<vector<int>>&key){
+    int det = determinant(key);
+    if(det!= 0){
+        if(check_gcd(det, NUM) == 1)
+            return true;
+    }
+
+    return false;
+}
+
+void fill_matrix(vector<vector<int>>&key){
+    int n = key.size();
+    for(int i = 0; i <n; i++)
+    {
+        for(int j = 0; j<n; j++)
+        {
+            cin>>key[i][j];
+        }
+    }
+
+    if(!check_invert(key)){
+        cout<<"Entered values make key matrix non-invertible. Try Again"<<endl;
+        fill_matrix(key);
+    }
+}
+
+string hill_cipher(string &plain){
+    string cipher_text;
+    int plain_size = plain.length();
+    int key_size = choose_matrix_key(plain_size);
+
+    vector<vector<int>>key(key_size,vector<int>());
+    fill_matrix(key);
+
+    return cipher_text;
 }
 
 
@@ -160,7 +264,7 @@ int main() {
                 break;
 
             case 5:
-                //cipher_text = hill_cipher(plain_text);
+                cipher_text = hill_cipher(plain_text);
                 cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
                 break;
 
