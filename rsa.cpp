@@ -9,11 +9,11 @@ bool is_prime(long long n){
     if(n <= 1)
         return false;
 
-    if(n%2 == 0 || n%3 == 0)
-        return false;
-
     if(n <= 3)
         return true;
+
+    if(n%2 == 0 || n%3 == 0)
+        return false;
 
     for(long long i = 5; i*i <= n; i+=6){
         if(n%i == 0 || n%(i+2) == 0)
@@ -24,6 +24,7 @@ bool is_prime(long long n){
 }
 
 long long generate_primes(){
+    srand(time(0));
     bool got_prime = false;
     long long n = 0;
 
@@ -115,8 +116,10 @@ void generate_keys(long long &n, long long &e, long long &d) {
 string numeric_to_string(const vector<long long> &numeric_message) {
     string message;
     for (long long num : numeric_message) {
-        if (num >= 1 && num <= 26)
-            message += static_cast<char>(num - 1 + 'a');
+        if (num >= 0 && num <= 25)
+            message += static_cast<char>(num + 'A');
+        else if (num == 27)
+            message += ' ';
         else
             throw invalid_argument("Numeric message contains invalid values.");
     }
@@ -127,9 +130,11 @@ vector<long long> string_to_numeric(const string &message) {
     vector<long long> numeric_message;
     for (char c : message) {
         if (c >= 'a' && c <= 'z')
-            numeric_message.push_back(c - 'a' + 1);
+            numeric_message.push_back(c - 'a');
         else if (c >= 'A' && c <= 'Z')
-            numeric_message.push_back(c - 'A' + 1);
+            numeric_message.push_back(c - 'A');
+        else if (c == ' ')
+            numeric_message.push_back(27);
         else
             throw invalid_argument("Unsupported character in message. Only alphabetic characters are allowed.");
     }
@@ -138,7 +143,7 @@ vector<long long> string_to_numeric(const string &message) {
 
 
 int main() {
-    long long n, e, d;
+    long long n = 0, e = 0, d = 0;
     generate_keys(n, e, d);
 
     cout << "Public Key: (" << e << ", " << n << ")" << endl;
@@ -146,12 +151,15 @@ int main() {
 
     string message;
     cout << "Enter the message (alphabetic characters only): ";
-    cin >> message;
+    getline(cin, message);
 
+    cout<<"Input : "<<message<<endl;
     vector<long long> numeric_message = string_to_numeric(message);
 
-vector<long long> encrypted_message;
+    vector<long long> encrypted_message;
     for (long long num : numeric_message) {
+        if(num == 32)
+            continue;
         encrypted_message.push_back(encrypt_rsa(num, e, n));
     }
 
