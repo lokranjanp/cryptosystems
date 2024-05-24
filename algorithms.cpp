@@ -249,56 +249,56 @@ string hill_cipher(string &plain){
     return cipher_text;
 }
 
-int main() {
-    cout << "Welcome to Crypto - systems" << endl;
-    int choice = 0;
-    do{
-        string plain_text;
-        string cipher_text;
-        display_choices();
-
-        cout << "Enter your choice of encryption : ";
-        cin >> choice;
-
-        if(choice<=6){
-            cout << "Enter plain text : " << " ";
-            cin >> plain_text;
-        }
-
-        switch (choice) {
-            case 1:
-                cipher_text = ceaser_cipher(plain_text);
-                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
-                break;
-            case 2:
-                cipher_text = affine_cipher(plain_text);
-                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
-                break;
-
-            case 3:
-                cipher_text = auto_key_cipher(plain_text);
-                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
-                break;
-
-            case 4:
-                cipher_text = vignere_cipher(plain_text);
-                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
-                break;
-
-            case 5:
-                cipher_text = hill_cipher(plain_text);
-                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
-                break;
-
-            case 6:
-                //cipher_text = playfair_cipher(plain_text);
-                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
-                break;
-
-            default:
-                cout << "*************Exiting***********" << endl;
-                //  cin >> choice;
-        }
-    }while(choice!=7);
-
-}
+//int main() {
+//    cout << "Welcome to Crypto - systems" << endl;
+//    int choice = 0;
+//    do{
+//        string plain_text;
+//        string cipher_text;
+//        display_choices();
+//
+//        cout << "Enter your choice of encryption : ";
+//        cin >> choice;
+//
+//        if(choice<=6){
+//            cout << "Enter plain text : " << " ";
+//            cin >> plain_text;
+//        }
+//
+//        switch (choice) {
+//            case 1:
+//                cipher_text = ceaser_cipher(plain_text);
+//                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+//                break;
+//            case 2:
+//                cipher_text = affine_cipher(plain_text);
+//                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+//                break;
+//
+//            case 3:
+//                cipher_text = auto_key_cipher(plain_text);
+//                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+//                break;
+//
+//            case 4:
+//                cipher_text = vignere_cipher(plain_text);
+//                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+//                break;
+//
+//            case 5:
+//                cipher_text = hill_cipher(plain_text);
+//                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+//                break;
+//
+//            case 6:
+//                //cipher_text = playfair_cipher(plain_text);
+//                cout << endl << "Cipher text for plain text : " << plain_text << " is " << cipher_text << endl;
+//                break;
+//
+//            default:
+//                cout << "*************Exiting***********" << endl;
+//                //  cin >> choice;
+//        }
+//    }while(choice!=7);
+//
+//}
