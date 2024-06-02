@@ -1,7 +1,3 @@
-//
-// Created by Lokranjan P on 24/05/24.
-//
-
 #include "stdc++.h"
 using namespace std;
 
@@ -111,6 +107,9 @@ void generate_keys(long long &n, long long &e, long long &d) {
     } while (gcd(e, phi) != 1);
 
     d = mod_inv(e, phi);
+
+    cout << "Public Key: (" << e << ", " << n << ")" << endl;
+    cout << "Private Key: (" << d << ", " << n << ")" << endl;
 }
 
 string numeric_to_string(const vector<long long> &numeric_message) {
@@ -141,41 +140,16 @@ vector<long long> string_to_numeric(const string &message) {
     return numeric_message;
 }
 
+//int display_decryption(vector<long long> &encrypted_message) {
+//    vector<long long> decrypted_message;
+//    for (long long num : encrypted_message) {
+//        decrypted_message.push_back(decrypt_rsa(num, d, n));
+//    }
+//
+//    string decrypted_text = numeric_to_string(decrypted_message);
+//    cout << "Decrypted message: " << decrypted_text << endl;
+//    return 0;
+//}
 
-int main() {
-    long long n = 0, e = 0, d = 0;
-    generate_keys(n, e, d);
 
-    cout << "Public Key: (" << e << ", " << n << ")" << endl;
-    cout << "Private Key: (" << d << ", " << n << ")" << endl;
-
-    string message;
-    cout << "Enter the message (alphabetic characters only): ";
-    getline(cin, message);
-
-    cout<<"Input : "<<message<<endl;
-    vector<long long> numeric_message = string_to_numeric(message);
-
-    vector<long long> encrypted_message;
-    for (long long num : numeric_message) {
-        if(num == 32)
-            continue;
-        encrypted_message.push_back(encrypt_rsa(num, e, n));
-    }
-
-    cout << "Encrypted message: ";
-    for (long long num : encrypted_message) {
-        cout << num << " ";
-    }
-    cout << endl;
-
-    vector<long long> decrypted_message;
-    for (long long num : encrypted_message) {
-        decrypted_message.push_back(decrypt_rsa(num, d, n));
-    }
-
-    string decrypted_text = numeric_to_string(decrypted_message);
-    cout << "Decrypted message: " << decrypted_text << endl;
-
-    return 0;
-}
+// Created by Lokranjan P on 24/05/24.

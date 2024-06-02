@@ -4,4 +4,7 @@ project(cryptsystems)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(cryptsystems algorithms.cpp
-        rsa.cpp)
+        rsa.cpp
+        algorithms.h
+        rsa.h
+        main.cpp)
